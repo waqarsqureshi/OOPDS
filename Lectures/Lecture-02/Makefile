@@ -1,0 +1,18 @@
+
+SRC=Lecture_02.tex
+
+TARGDISP=$(SRC:.tex=.pdf)
+
+all: $(TARGDISP)
+
+$(TARGDISP): $(SRC)
+	pdflatex $(SRC)
+
+zip:
+	zip Lecture_02 *.tex HZ-fig*pdf Makefile rigid*pdf vis*pdf \
+	    xform*pdf ../ait*jpg
+
+clean:
+	rm -f *~ *log *nav *aux $(TARGPRINT) $(TARGDISP) *.out *.snm *.toc \
+       	      *.vrb
+

@@ -1,0 +1,234 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% == CSIM Handout LaTeX Template ==
+% == Credit ==
+% Assoc. Prof. Matthew N. Dailey 
+% Computer Science and Information Management 
+% Asian Insitute of Technology 
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+\usepackage{a4,url,upquote}
+\usepackage{graphicx}
+%\usepackage{hyperref}
+
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\footskip}{0.5in}
+\usepackage{color}
+\usepackage{listings}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+
+
+
+\newcommand{\bheading}[1]{\vspace{10pt} \noindent \textbf{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+\begin{document}
+
+\begin{tabbing}
+  \`\=\kill
+  \input{./Header}
+  \textbf{Handout 03:} Recursion and Dynamic memory allocation 
+  \` \textbf{Instructor:} Dr. Waqar Shahid, Umar Masood
+\end{tabbing}
+
+\hrule
+
+\vspace{.25in}
+
+\begin{center}
+\textbf{\Large Recursion and Dynamic Memory allocation}
+\end{center}
+
+\vspace{.15in}
+
+\subsection*{Introduction:} 
+\noindent In this lab we will practice input and output file stream, recursion, and dynamic memory allocation. Moreover, for now on we will not the computer display as output i.e. \verb|cout| is prohibited. You can use file stream to log any output or use a file to read any input instead of keyboard input i.e. \verb|cin|. You can use either command line compiler installed in your system from visual studio or an online compiler. If  you use an online compile make sure you save your source code in a local folder. You should study the code and answer the question given in the exercise.
+
+\medskip
+
+\noindent \textbf{Instruction: }\red{ Use proper indentation file writing your code. Your marks during the exams will be deducted if proper indentation is not used. Also write comments in your code as necessary, especially at the start of the program file. Save your source files in a separate folder and name files and folder accordingly. Do not copy the code from your piers you can always ask your instructors to help you finish the lab exercise.}
+
+\subsection*{File stream}
+\noindent Run the code and answer the question give in the exercise. Following C++ program opens a file in reading and writing mode. After writing information entered by the user to a file named afile.dat, the program reads information from the file and outputs it onto the screen
+
+\subsubsection*{Code-1}
+
+\begin{lstlisting}[language=C++]
+#include <fstream>
+#include <iostream>
+using namespace std;
+ 
+int main () {
+   char data[100];
+
+   // open a file in write mode.
+   ofstream outfile;
+   outfile.open("afile.dat");
+
+   cout << "Writing to the file" << endl;
+   cout << "Enter your name: "; 
+   cin.getline(data, 100);
+
+   // write inputted data into the file.
+   outfile << data << endl;
+
+   cout << "Enter your age: "; 
+   cin >> data;
+   cin.ignore();
+   
+   // again write inputted data into the file.
+   outfile << data << endl;
+
+   // close the opened file.
+   outfile.close();
+
+   // open a file in read mode.
+   ifstream infile; 
+   infile.open("afile.dat"); 
+ 
+   cout << "Reading from the file" << endl; 
+   infile >> data; 
+
+   // write the data at the screen.
+   cout << data << endl;
+   
+   // again read the data from the file and display it.
+   infile >> data; 
+   cout << data << endl; 
+
+   // close the opened file.
+   infile.close();
+
+   return 0;
+}
+\end{lstlisting}
+
+\subsubsection*{Exercise-1}
+\begin{enumerate}
+\item What happens if you change the file extension?
+
+\item What happens if you do not use \verb| cin.ignore();|?
+
+\item What is the benefit of using \verb|cin.getline(data, 100);| instead of \verb| cin>>data| ?
+
+\item Modify the program to enter a list of 10 students, their age and gender.
+\end{enumerate}
+
+\subsection*{Recursion}
+Recursive functions are functions that call themselves (directly, or indirectly through another function). In the lectures we studied a simple example to learn recursion. We saw that recursion makes the code more simpler and elegant. Two things that pretty much all correct recursive functions share are the following:
+
+\begin{enumerate}
+\item A recursive function needs one or more base case.
+\item Recursive calls must have \red{smaller} inputs than the main input.
+\end{enumerate}
+Here we study some more complex example to understand recursion.
+
+\medskip
+
+\textbf{Problem:} Given a (pre-sorted) array of integers in increasing order, find the location of a target element, or return -1
+if it is not in the array. 
+
+\medskip
+
+\textbf{Solution:} \textbf{Binary Search algorithm:} \red{Check the middle of the remaining array. If the
+element is there, we are done. If the desired element is smaller, continue searching to the left of the middle
+element; otherwise, continue searching to the right}
+
+\subsubsection*{Code-2}
+\begin{lstlisting}[language=C++]
+int recSearch(int n, int* b, int lo, int hi) {
+    if (hi < lo) return -1; // not in the array
+    else {
+        int mid = (hi+lo)/2;
+        // the midpoint of the array
+        if (n == b[mid]) return mid;
+        // we found it
+        else if (n < b[mid])
+        return recSearch(n, b, lo, mid-1); // element to the left of the midpoint
+        else return recSearch(n, b, mid+1, hi); // element to the right of the midpoint
+   }
+}
+
+\end{lstlisting}
+
+\subsubsection{Exercise-2}
+\begin{enumerate}
+\item Find an iterative solution to the above recursive solution
+\item Find the two things that would be present in a recursive solution
+\item Write a flow chart of the above recursive call
+\end{enumerate}
+
+\subsubsection*{Code-3}
+Run the following code and answer the following:
+
+\begin{lstlisting}[language=C++]
+//dynamic allocation
+#include<iostream>
+using namespace std;
+int main()
+{
+	int* ptr = new int;
+	*ptr = 2;
+	*ptr = *ptr * 4;
+	cout << "Data at memory is " << *ptr << endl;
+	delete ptr;
+	ptr = NULL;
+	return 0;
+}
+\end{lstlisting}
+
+\subsubsection*{Exercise-3}
+\begin{enumerate}
+\item Can you write the C-style memory allocation for above code?
+\item Make an array of students in the class along with their name, age, and gender data. Let the user define the size of the array instead of a fixed size array. Read the name from the file created in exercise-1 into the array and print it on the display screen.
+\item Suppose one student has left the class. Can you write a function to delete the name along with its age and gender from the array?
+\end{enumerate}
+
+
+
+\subsection*{References}
+\begin{enumerate}
+\item Tutorialspoint website 2017, 
+\url{https://www.tutorialspoint.com/cplusplus/cpp_files_streams.htm}.
+\item Lecture Notes Data Structure \url{http://www-bcf.usc.edu/\%7Edkempe/teaching/DataStructures.pdf}
+\item Linkedlist tutorial \url{http://www.zentut.com/c-tutorial/c-linked-list/}
+\end{enumerate}
+
+\end{document}
+
