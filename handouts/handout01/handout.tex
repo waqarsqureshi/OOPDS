@@ -161,7 +161,7 @@ Here we study some more complex example to understand recursion.
 
 \medskip
 
-\textbf{Problem:} Given a (pre-sorted) array of integers in increasing order, find the location of a target element, or return -1
+\textbf{Problem:} Given a \red{pre-sorted} array of integers in increasing order, find the location of a target element, or return -1
 if it is not in the array. 
 
 \medskip
@@ -170,28 +170,110 @@ if it is not in the array.
 element is there, we are done. If the desired element is smaller, continue searching to the left of the middle
 element; otherwise, continue searching to the right}
 
-\subsubsection*{Code-2}
+\subsubsection*{Code-2a}
 \begin{lstlisting}[language=C++]
-int recSearch(int n, int* b, int lo, int hi) {
-    if (hi < lo) return -1; // not in the array
-    else {
-        int mid = (hi+lo)/2;
-        // the midpoint of the array
-        if (n == b[mid]) return mid;
-        // we found it
-        else if (n < b[mid])
-        return recSearch(n, b, lo, mid-1); // element to the left of the midpoint
-        else return recSearch(n, b, mid+1, hi); // element to the right of the midpoint
-   }
-}
+//  Created by Frank M. Carrano and Tim Henry.
+
+/** Searches the array anArray[first] through anArray[last]
+    for a given value by using a binary search.
+ @pre  0 <= first, last <= SIZE - 1, where SIZE is the
+    maximum size of the array, and anArray[first] <=
+    anArray[first + 1] <= ... <= anArray[last].
+ @post  anArray is unchanged and either anArray[index] contains
+    the given value or index == -1.
+ @param anArray  The array to search.
+ @param first  The low index to start searching from.
+ @param last  The high index to stop searching at.
+ @param target  The search key.
+ @return  Either index, such that anArray[index] == target, or -1.
+*/
+int binarySearch(const int anArray[], int first, int last, int target)
+{
+   int index;
+   if (first > last)
+      index = -1; // target not in original array
+   else
+   {
+      // If target is in anArray,
+      // anArray[first] <= target <= anArray[last]
+      int mid = first + (last - first) / 2;
+      if (target == anArray[mid])
+         index = mid; // target found at anArray[mid]
+      else if (target < anArray[mid])
+         // Point X
+         index = binarySearch(anArray, first, mid - 1, target);
+      else
+         // Point Y
+         index = binarySearch(anArray, mid + 1, last, target);
+   }  // end if
+   
+   return index;
+}  // end binarySearch
 
 \end{lstlisting}
 
-\subsubsection{Exercise-2}
+\subsubsection{Exercise-2a}
 \begin{enumerate}
-\item Find an iterative solution to the above recursive solution
-\item Find the two things that would be present in a recursive solution
-\item Write a flow chart of the above recursive call
+\item Find an iterative solution to the above binary search
+\item 
+\item Find the two properties of the recursive solution in above code
+\item Draw a data-flow or box traces of the above recursive call for a given array  $A = {1,5,9,12,15,21,29,31}$ and targets $target=9$ and $target=6$
+\end{enumerate}
+
+\subsubsection*{Code-2b}
+The following function computes the sum of the first $n\geq1$ integers.
+
+\begin{lstlisting}[language=C++]
+//  Created by Frank M. Carrano and Tim Henry.
+
+/** Computes the sum of the integers from 1 through n.
+ @pre  n > 0.
+ @post  None.
+ @param n  A positive integer.
+ @return  The sum 1 + 2 + . . . + n. */
+int sumUpTo(int n)
+{
+   int sum = 0;
+   if (n == 1)
+      sum = 1;
+   else // n > 1
+      sum = n + sumUpTo(n - 1);
+   return sum;
+}  // end sumUpTo
+
+\end{lstlisting}
+
+\subsubsection*{Exercise-2b}
+\begin{enumerate}
+\item Show how this function satisfies the properties of a recursive function
+\item Write the recursive solution to above problem
+\item Draw a block trace or data flow of the above code for $n=4$
+\end{enumerate}
+
+\subsubsection{Code-2c}
+The following code prints a string backward
+
+\begin{lstlisting}[language=C++]
+//  Created by Frank M. Carrano and Tim Henry.
+//  Copyright (c) 2013 __Pearson Education__. All rights reserved.
+
+/** Iterative version. */
+void writeBackward(string s)
+{
+   int length = (int)s.size();
+   while (length > 0)
+   {
+      cout << s.substr(length - 1, 1);
+      length--;
+   }  // end while
+}  // end writeBackward
+\end{lstlisting}
+
+\subsubsection*{Exercise-2c}
+\begin{enumerate}
+\item Show how this function satisfies the properties of a recursive function.
+\item Write a recursive solution to above problem and draw a box trace or data flow for input string \textit{"rat"}.
+\item Use the function to print strings of a fixed length.
 \end{enumerate}
 
 \subsubsection*{Code-3}
