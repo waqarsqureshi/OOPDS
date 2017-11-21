@@ -1,20 +1,20 @@
 #include <iostream> 
 using namespace std;
- 
+
 class Shape {
    protected:
       int width, height;
-      
+
    public:
-      Shape( int a = 0, int b = 0){
+      Shape(int a = 0, int b = 0) {
          width = a;
          height = b;
       }
-      int area() {
-         cout << "Parent class area :" <<endl;
-         return 0;
-      }
-};
+      
+      // pure virtual function
+      virtual int area() = 0;
+};   
+
 class Rectangle: public Shape {
    public:
       Rectangle( int a = 0, int b = 0):Shape(a, b) { }
@@ -37,7 +37,7 @@ class Triangle: public Shape {
 
 // Main function for the program
 int main() {
-   Shape *shape; Rectangle * rectangle;
+   Shape *shape;
    Rectangle rec(10,7);
    Triangle  tri(10,5);
 
@@ -45,14 +45,13 @@ int main() {
    shape = &rec;
    
    // call rectangle area.
-   cout<<"r1 = "<<shape->area()<<endl;
-   rectangle = &rec;
-   cout<<"r2 = "<<rectangle->area()<<endl;
-    
+   shape->area();
+
    // store the address of Triangle
    shape = &tri;
    
    // call triangle area.
-   cout<<"t = "<<shape->area()<<endl;
+   shape->area();
+   
    return 0;
 }
