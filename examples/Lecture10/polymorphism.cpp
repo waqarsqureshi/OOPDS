@@ -37,22 +37,22 @@ class Triangle: public Shape {
 
 // Main function for the program
 int main() {
-   Shape *shape; Rectangle * rectangle;
+   Shape *s; Rectangle * rectangle;
    Rectangle rec(10,7);
    Triangle  tri(10,5);
 
    // store the address of Rectangle
-   shape = &rec;
+   Shape *s2 = rec(5,8);;
    
    // call rectangle area.
-   cout<<"r1 = "<<shape->area()<<endl;
+   cout<<"r1 = "<<s2->area()<<endl;
    rectangle = &rec;
    cout<<"r2 = "<<rectangle->area()<<endl;
     
    // store the address of Triangle
-   shape = &tri;
+   s = &tri;
    
    // call triangle area.
-   cout<<"t = "<<shape->area()<<endl;
+   cout<<"t = "<<s->area()<<endl;
    return 0;
 }
