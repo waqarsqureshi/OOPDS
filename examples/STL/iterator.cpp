@@ -15,7 +15,6 @@ int max(vector<int>::iterator start, vector<int>::iterator stop)
       return m;
 }
 
-
 int main (){
 
 
