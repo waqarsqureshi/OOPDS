@@ -15,6 +15,13 @@ class mypair {
     T getmax ();
 };
 
+/*
+The first one is the template parameter. 
+The second T refers to the type returned by the function. 
+And the third T (the one between angle brackets) is also a requirement: 
+It specifies that this function's template parameter is also the class template parameter.
+
+*/
 template <class T>
 T mypair<T>::getmax ()
 {

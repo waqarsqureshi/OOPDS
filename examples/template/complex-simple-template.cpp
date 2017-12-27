@@ -9,11 +9,12 @@ class and use it in our program.
 #include<string>
 using namespace std;
 
+template <class T>
 class Complex {
     private:
-        double re,im;
+        T re,im;
     public:
-        Complex (double re, double im){
+        Complex (T re, T im){
             this->re = re;
             this->im = im;
         }
@@ -24,16 +25,17 @@ class Complex {
             this->im = toCopy.im;
         }
         Complex add (Complex other) const {
-            double reSum = re+other.re;
-            double imSum = im+other.im;
+            T reSum = re+other.re;
+            T imSum = im+other.im;
             return Complex(reSum,imSum);
-        }
-        
-        string toString() const{
+        }               
+        string toString() const {
             return (" "+to_string(re) + "+" + to_string(im) +"i");
         }
         
 };
+ 
+ 
 
 // This is to make you learn how to give an input file as argument
 //int main (int argc, char* argv[]){
@@ -45,10 +47,10 @@ class Complex {
 int main (){
 
 // create two complex numbers
-    Complex c3[6];
-    Complex c1 = Complex(1.5,-3.2);
-    Complex c2 = Complex(1.1,1.3);
-    Complex sum = c1.add(c2);
+    
+    Complex<double> c1 = Complex<double>(1.5,-3.2);
+    Complex<double> c2 = Complex<double>(1.1,1.3);
+    Complex<double> sum = c2.add(c1);
     
     cout<<sum.toString()<<endl;
 
