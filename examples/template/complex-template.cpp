@@ -12,7 +12,7 @@ using namespace std;
 
 template <class T>
 class Complex {
-    public:
+    private:
         T re,im;
     public:
         Complex (T re, T im){
@@ -25,22 +25,22 @@ class Complex {
             this->re = toCopy.re;
             this->im = toCopy.im;
         }
-        Complex add (Complex & other) const {
+        Complex operator+ (Complex & other) const {
             T reSum = this->re+other.re;
             T imSum = this->im+other.im;
             return Complex(reSum,imSum);
         }
-        Complex add (Complex<int> & other)  {
-            T reSum = this->re+other.re;
-            T imSum = this->im+other.im;
-            return Complex(reSum,imSum);
-        }               
+               
         string toString() const {
             if(im<0)
             return (" "+to_string(re) + "-" + to_string(im) +"i");
             else
             return (" "+to_string(re) + "+" + to_string(im) +"i");
-        }
+        }        
+        
+        friend ostream & operator<< (ostream &out, const Complex & c){
+           return (out << " "+to_string(c.re) + "+" + to_string(c.im) +"i");
+       }
         
 };
  
@@ -58,9 +58,9 @@ int main (){
 // create two complex numbers
     
     Complex<double> c1 = Complex<double>(1.5,-3.2);
-    Complex<int> c2 = Complex<int>(1,5);
-    Complex<double> sum = c1.add(c2);
+    Complex<double> c2 = Complex<double>(1,5);
+    Complex<double> sum = c1+c2;
     
-    cout<<sum.toString()<<endl;
+    cout<<sum<<endl;
 
 }
