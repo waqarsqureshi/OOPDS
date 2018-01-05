@@ -2,9 +2,9 @@
 #include"linkedlist.hpp"
 
 int main (void){
-
+    char b = 'b';
     IntLinkedList *myList = new IntLinkedList();
-    IntLinkedList *myList_2 = new IntLinkedList(1);
+    IntLinkedList *myList_2 = new IntLinkedList(b);
     for (int i = 1; i < 11; i ++){
         myList->append (i);
     }

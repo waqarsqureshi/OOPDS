@@ -1,4 +1,4 @@
-// A complete working C program to demonstrate deletion in singly
+// A complete working C++ program to demonstrate deletion in singly
 // linked list
 #include <stdio.h>
 #include <stdlib.h>

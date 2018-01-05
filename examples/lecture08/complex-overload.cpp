@@ -5,6 +5,9 @@ In this code we will implement a complex
 class and use it in our program. 
 We have overloaded a few operators 
 to make our life simple
+
+compile this file as follows:
+g++ filename.cpp -std=c++0x
 */
 #include<iostream>
 #include<string>
@@ -20,7 +23,7 @@ class Complex {
         }
         
         Complex (const Complex & toCopy){
-        // add a copy constructor 
+//        // add a copy constructor 
             this->re = toCopy.re;
             this->im = toCopy.im;
         }
@@ -29,6 +32,16 @@ class Complex {
             double imSum = im+other.im;
             return Complex(reSum,imSum);
         }
+        Complex operator+ (int other) const {
+            double reSum = re+other;
+            double imSum = im+0;
+            return Complex(reSum,imSum);
+        }
+        friend Complex operator+ (int other1,Complex other2)  {
+            double reSum = other2.re+other1;
+            double imSum = other2.im+0;
+            return Complex(reSum,imSum);
+        }         
         Complex operator- (const Complex & other) const{
             double reDiff = re - other.re;
             double imDiff = im - other.im;
@@ -50,9 +63,9 @@ class Complex {
         
         }                 
         
-//        string toString() const{
-//            return (" "+to_string(re) + "+" + to_string(im) +"i");
-//        }
+        string toString() const{
+            return (" "+to_string(re) + "+" + to_string(im) +"i");
+        }
         friend ostream & operator<< (ostream &out, const Complex & c){
            return (out << " "+to_string(c.re) + "+" + to_string(c.im) +"i");
        }
@@ -71,9 +84,13 @@ int main (){
 // create two complex numbers
     Complex c1 = Complex(1.5,-3.2);
     Complex c2 = Complex(1.1,1.3);
-    Complex sum = c1+c2;
+    //Complex c3 = Complex(c2);
+    Complex c4 = c2;
+    c2 = c1;
+    int num = 7;
+    Complex sum = num+c2;
     Complex diff = c1-c2;
     Complex mul = c1*c2;
-    cout<<"Sum"<<sum<<" ;Diff"<<diff<<" ;Mul"<<diff<<endl;
+    cout<<"c2"<<c2<<"c4"<<c4<<"==== "<<"Sum"<<sum<<" ;Diff"<<diff<<" ;Mul"<<diff<<endl;
 
 }

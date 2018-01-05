@@ -46,9 +46,11 @@ class Complex {
 int main (){
 
 // create two complex numbers
+    Complex c3[6];
     Complex c1 = Complex(1.5,-3.2);
     Complex c2 = Complex(1.1,1.3);
     Complex sum = c1.add(c2);
+    
     cout<<sum.toString()<<endl;
 
 }

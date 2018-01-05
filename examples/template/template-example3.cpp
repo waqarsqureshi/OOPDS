@@ -25,7 +25,6 @@ int main(){
     cout<< "The sum of "<<dx<<" and "<<dy<<" is "<<Sum(dx,dy)<<endl;
     cout<< "The sum of "<<fx<<" and "<<fy<<" is "<<Sum(fx,fy)<<endl;
     cout<< "The sum of "<<cx<<" and "<<cy<<" is "<<Sum(cx,cy)<<endl;
-
     cout<< "The Max of "<<ix<<" and "<<iy<<" is "<<GetMax(ix,iy)<<endl;
 }
 

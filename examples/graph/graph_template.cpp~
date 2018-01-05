@@ -1,0 +1,109 @@
+// class templates
+#include <iostream>
+using namespace std;
+
+template<class VertexType>
+GraphType<VertexType>::GraphType(int maxV)
+{
+    numVertices = 0;
+    maxVertices = maxV;
+    vertices = new VertexType[maxV];
+    edges = new int[maxV];
+    for(int i = 0; i < maxV; i++)
+        edges[i] = new int[maxV];
+        marks = new bool[maxV];
+}
+ 
+template<class VertexType>
+GraphType<VertexType>::~GraphType()
+{
+    delete [] vertices;
+    for(int i = 0; i < maxVertices; i++)
+        delete [] edges[i];
+        delete [] edges;
+        delete [] marks;
+}
+
+ 
+
+
+template <class ItemType>
+void DepthFirstSearch(GraphType<VertexType> graph, VertexType startVertex, VertexType endVertex){
+
+    StackType<VertexType> stack;
+    QueType<VertexType> vertexQ;
+ 
+    bool found = false;
+    VertexType vertex;
+    VertexType item;
+ 
+    graph.ClearMarks();
+    stack.Push(startVertex);
+    do {
+        stack.Pop(vertex);
+        if(vertex == endVertex) 
+        found = true;
+        else {
+            if(!graph.IsMarked(vertex)) {
+                graph.MarkVertex(vertex);
+                graph.GetToVertices(vertex, vertexQ);
+       
+                while(!vertexQ.IsEmpty()) {
+                    vertexQ.Dequeue(item);
+                    if(!graph.IsMarked(item))
+                        stack.Push(item);
+                }
+            }
+        }
+        while(!stack.IsEmpty() && !found);
+            if(!found)
+            cout << "Path not found" << endl;
+    }
+    
+}
+template<class VertexType>
+
+void GraphType<VertexType>::GetToVertices(VertexType vertex,QueTye<VertexType>& adjvertexQ)
+{
+ int fromIndex;
+ int toIndex;
+ 
+ fromIndex = IndexIs(vertices, vertex);
+ for(toIndex = 0; toIndex < numVertices; toIndex++)
+   if(edges[fromIndex][toIndex] != NULL_EDGE)
+     adjvertexQ.Enqueue(vertices[toIndex]);
+}
+
+template<class VertexType>
+void BreadthFirtsSearch(GraphType<VertexType> graph, VertexType startVertex, VertexType endVertex);
+{
+ QueType<VertexType> queue;
+ QueType<VertexType> vertexQ;// 
+ 
+ bool found = false;
+ VertexType vertex;
+ VertexType item;
+ 
+ graph.ClearMarks();
+ queue.Enqueue(startVertex);
+ do {
+   queue.Dequeue(vertex);
+   if(vertex == endVertex) 
+     found = true;
+ else {
+     if(!graph.IsMarked(vertex)) {
+       graph.MarkVertex(vertex);
+       graph.GetToVertices(vertex, vertexQ);
+ 
+       while(!vertxQ.IsEmpty()) {
+         vertexQ.Dequeue(item);
+         if(!graph.IsMarked(item))
+           queue.Enqueue(item);
+       }
+     }
+   }
+ } while (!queue.IsEmpty() && !found);
+ 
+ if(!found)
+   cout << "Path not found" << endl;
+}     

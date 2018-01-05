@@ -1,0 +1,2 @@
+g++ myFirstLemon.cc -I /home/xyz/lemon/ -I /home/xyz/lemon/build_lemon -L /home/xyz/lemon/build_lemon/lemon/ -lemon -o hello_lemon
+
